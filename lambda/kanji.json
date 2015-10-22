@@ -1,4 +1,4 @@
-{
+var kanji = {
   "1": "くしつのへノフヘレ一乙っーー弌丿",
   "2": "いうこてとひめりるろんアイカクコスセソトナニヌハヒマムメヤユラリルワ入力丁人二了乃又刀ぺプペぃぅァィャュン卜几匕弍貮貳〆厶",
   "3": "あえかけさすせそちにみもやゆよられわゐウエオキケサシタチツテミモヨロヱヲ己上小大川土弓口工子千寸丈久凡士女三下山亡丸干也巳巾勺刃夕凡ぐじづべぴブベパピぁぇゃゅょゥェォョヶッ已广叉兀于乞弋个孑",
@@ -29,4 +29,34 @@
   "28": "欟鑿",
   "29": "鬱欝驪爨",
   "30": "鸞"
-}
+};
+
+console.log('Loading function');
+
+var aws = require('aws-sdk');
+var s3 = new aws.S3({apiVersion: '2006-03-01'});
+exports.handler = function(event, context) {
+console.log('Received event:', JSON.stringify(event, null, 2));
+//console.log('[access_key_id]:' + aws.config.credentials.accessKeyId);
+//console.log('[secret_access_key]:' + aws.config.credentials.secretAccessKey);
+//console.log('[session_token]:' + aws.config.credentials.sessionToken);
+    s3.getObject({Bucket:"data.seimei.asia", Key:"kanji.json"},
+        function(err,data) {
+            if (err) {
+                console.log(err);
+                context.fail(err.message);
+            } else {
+                var kanji = JSON.parse(data.Body);
+                var kakusu = null;
+                for (var key in kanji) {
+                    if (kanji[key].match(event["sei"])) {
+                        kakusu = key;
+                    }
+                }
+                context.succeed(kakusu);
+            }
+        }
+
+    );
+};
+
