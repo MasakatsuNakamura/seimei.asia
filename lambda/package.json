@@ -1,0 +1,24 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-install": "^0.6.0",
+    "gulp-zip": "^3.0.2",
+    "node-aws-lambda": "^0.1.6",
+    "run-sequence": "^1.1.4"
+  },
+  "dependencies": {
+    "async": "^1.4.2",
+    "gm": "^1.20.0"
+  }
+}
