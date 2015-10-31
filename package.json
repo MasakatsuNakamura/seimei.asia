@@ -24,5 +24,9 @@
     "gulp-zip": "^3.0.2",
     "node-aws-lambda": "^0.1.6",
     "run-sequence": "^1.1.4"
+  },
+  "dependencies": {
+    "grant": "^3.5.1",
+    "grunt": "^0.4.5"
   }
 }

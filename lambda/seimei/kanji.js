@@ -32,11 +32,12 @@ module.exports = function (c) {
     "30": "鸞"
   };
 
-  var k = 0;
+  var kakusu = 0;
   for (var k in kanji) {
     if (kanji[k].indexOf(c) != -1) {
-      break;
+        kakusu = Number(k);
+        break;
     }
   }
-  return Number(k);
+  return kakusu;
 }
