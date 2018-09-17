@@ -1,0 +1,113 @@
+extend ./components/_header
+block content
+  .containar
+    .panel.panel-default
+      .panel-heading
+        h4 
+          span#sei
+          | &nbsp;
+          span#mei
+          | さん&nbsp;(
+          span#gendar
+          | )の運勢
+      .panel-body
+        .row
+          .containar
+            .col-xs-6
+              .panel.panel-default
+                .panel-heading
+                  span#jinkaku
+                .panel-body
+                  span#jinkaku-desc
+          .containar
+            .col-xs-6
+              .panel.panel-default
+                .panel-heading
+                  span#gaikaku
+                .panel-body
+                  span#gaikaku-desc
+        .row
+          .containar
+            .col-xs-6
+              .panel.panel-default
+                .panel-heading
+                  span#seikaku
+                .panel-body
+                  span#seikaku-desc
+          .containar
+            .col-xs-6
+              .panel.panel-default
+                .panel-heading
+                  span#kenkou
+                .panel-body
+                  span#kenkou-desc
+        .row
+          .containar
+            .col-xs-6
+              .panel.panel-default
+                .panel-heading
+                  span#tenkaku
+                .panel-body
+                  span#tenkaku-desc
+          .containar
+            .col-xs-6
+              .panel.panel-default
+                .panel-heading
+                  span#soukaku
+                .panel-body
+                  span#soukaku-desc
+    // /Call to Action
+    // Bootstrap core JavaScript
+    // Placed at the end of the document so the pages load faster
+    script(src='js/jquery.js')
+    script(src='js/bootstrap.js')
+    // Custom JavaScript for the Side Menu - Put in a custom JS file if you want to clean this up
+    script.
+     function getUrlVars() {
+        'use strict';
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+      }
+
+      $(document).ready(function () {
+        var args = getUrlVars();
+        console.log(args);
+        var sei = decodeURIComponent(args.sei);
+        var mei = decodeURIComponent(args.mei);
+        var gendar = decodeURIComponent(args.gendar);
+        $('#sei').text(sei);
+        $('#mei').text(mei);
+        $('#gendar').text(gendar);
+
+        var gendar = (gendar === '男性') ? 'M' : 'F';
+
+        $.ajax({
+          type: "GET",
+          url: "https://xqltxxzuqc.execute-api.ap-northeast-1.amazonaws.com/prod",
+          data: "sei=" + sei + "&mei=" + mei + "&gendar=" + gendar,
+          success: function(json) {
+            console.log(json);
+            var list = {
+              jinkaku: "人画", gaikaku: "外画", seikaku: "性格", kenkou: "健康", tenkaku: "天画", soukaku: "総画"
+            };
+            for (var key in list) {
+              var kubun = list[key];
+              if (kubun === '性格') {
+                $("#" + key).html("<h4>" + kubun + "</h4>");
+              } else if (kubun === '健康') {
+                $("#" + key).html("<h4>" + kubun + "</h4>三才の配置:" + json[kubun].陰陽五行);
+              } else {
+                $("#" + key).html("<h4>" + kubun + ":" + json[kubun].画数 + "画</h4>" + json[kubun].説明);
+              }
+              $("#" + key + "-desc").html(json[kubun].文言);
+            }
+          }
+        });
+      });

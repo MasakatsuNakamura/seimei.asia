@@ -12,10 +12,10 @@ module.exports = function(grunt) {
 		jade: {
 			options:{
 				data:jadeDataFunc(),
-				pretty:true // 繧ｳ繝ｼ繝峨ｒ謨ｴ蠖｢蜃ｺ蜉帙☆繧九°
+				pretty:true
 			},
 			deploy:{
-				files:[{
+				files:[ {
 					expand:true,
 					cwd:'jade',
 					src:[
@@ -27,6 +27,7 @@ module.exports = function(grunt) {
 			}
 		}
 	});
+
 	function jadeDataFunc() {
 		return function(dest, srcAr) {
 			var _ = grunt.util._,
